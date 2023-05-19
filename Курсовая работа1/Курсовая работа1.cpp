@@ -49,6 +49,8 @@ void sortByNumberOfCar();
 void SortByBrand();
 void SortByHorsePower();
 void SortByDistanceTravelled();
+bool CheckIfLineNumberExists(string file, CarWithLineNumber carsLocal);
+bool CheckIfNumberOfCarExists(string file, CarWithLineNumber carsLocal);
 
 int countOfCars = 1;
 
@@ -230,25 +232,26 @@ void FileAdd(string file)
 	{
 		cout << setw(56) << "Введите данные об авто для заполнения: \n";
 
-		ifstream fin;
-		fin.open(file, ios_base::in | ios_base::ate);
-
-		if (!fin) 
+		cout << "Код авто: ";
+		/*getline(cin, carsLocal[i].numberOfCar);*/
+		cin >> carsLocal[i].lineNumber;
+		// Проверка наличия кода авто в файле
+		if (CheckIfLineNumberExists(file, carsLocal[i]))
 		{
-			cout << "\n\t\tФайл # не найден." << endl;
-			return;
+			cout << "Код авто уже существует в базе данных. Пожалуйста, введите другой код." << endl;
+			i--; // Повторяем итерацию для ввода другого кода
+			continue;
 		}
-
-		string lineForStream;
-		stringstream stream(lineForStream);
-
-		stream >> k;
-		fin.close();
-		fout << k << "\t";
 
 		cout << "Городской номер авто: ";
 		/*getline(cin, carsLocal[i].numberOfCar);*/
 		cin >> carsLocal[i].car.numberOfCar;
+		if (CheckIfNumberOfCarExists(file, carsLocal[i]))
+		{
+			cout << "Городской номер существует в базе данных. Пожалуйста, введите другой код." << endl;
+			i--; // Повторяем итерацию для ввода другого кода
+			continue;
+		}
 		fout << carsLocal[i].car.numberOfCar << "\t";
 
 		cout << "Бренд авто: ";
@@ -277,7 +280,6 @@ void FileAdd(string file)
 
 		cin.ignore();
 
-		k++;
 	}
 
 	fout.close();
@@ -292,11 +294,11 @@ void Output(string file)
 	ifstream read(file);
 	if (!read)
 		cout << "Файл не открыт." << endl;
-	cout << "\t\t+" << setfill('-') << setw(3) << "+" << setw(17) << "+" << setw(15) << "+" << setw(16) << "+" << setw(12) << "+" << setw(9) << "+" << setw(19) << "+"<<setw(9)<<"+\n";
+	cout << "\t\t+" << setfill('-') << setw(3) << "+" << setw(17) << "+" << setw(15) << "+" << setw(16) << "+" << setw(12) << "+" << setw(9) << "+" << setw(19) << "+" << setw(9) << "+\n";
 
-	cout << "\t\t|" << setfill(' ') << setw(2) << "#" << "|" << setw(16) << "Городской номер" << "|" << setw(14) << "Бренд  " << "|" << setw(15) << "Лошадиные силы " << "|" << setw(7) << "Пробег, км " << "|" << setw(8) << "л/100км" << "|" <<setw(18)<<"Цена топлива, руб"<<"|" << setw(6) << "Коэф. D" << "|\n";
+	cout << "\t\t|" << setfill(' ') << setw(2) << "#" << "|" << setw(16) << "Городской номер" << "|" << setw(14) << "Бренд  " << "|" << setw(15) << "Лошадиные силы " << "|" << setw(7) << "Пробег, км " << "|" << setw(8) << "л/100км" << "|" << setw(18) << "Цена топлива, руб" << "|" << setw(6) << "Коэф. D" << "|\n";
 
-	cout << "\t\t+" << setfill('-') << setw(3) << "+" << setw(17) << "+" << setw(15) << "+" << setw(16) << "+" << setw(12) << "+" << setw(9) << "+" << setw(19) <<"+"<< setw(9) << "+\n";
+	cout << "\t\t+" << setfill('-') << setw(3) << "+" << setw(17) << "+" << setw(15) << "+" << setw(16) << "+" << setw(12) << "+" << setw(9) << "+" << setw(19) << "+" << setw(9) << "+\n";
 
 	CarWithLineNumber carsLocal;
 	int n = 0;
@@ -306,12 +308,12 @@ void Output(string file)
 	while (getline(read, line))
 	{
 		stringstream carRead(line);
-		carRead >> carsLocal.lineNumber >> carsLocal.car.numberOfCar >> carsLocal.car.brand >> carsLocal.car.horsePower >> carsLocal.car.distanceTravelled >> carsLocal.car.fuelConsumption >>carsLocal.car.fuelCost>> carsLocal.car.koefD;
+		carRead >> carsLocal.lineNumber >> carsLocal.car.numberOfCar >> carsLocal.car.brand >> carsLocal.car.horsePower >> carsLocal.car.distanceTravelled >> carsLocal.car.fuelConsumption >> carsLocal.car.fuelCost >> carsLocal.car.koefD;
 
 		cout << "\t\t|" << setfill(' ') << setw(2) << carsLocal.lineNumber << "|" << setw(16) << carsLocal.car.numberOfCar << "|" << setw(14) << carsLocal.car.brand << "|" << setw(15) << carsLocal.car.horsePower
-			<< "|" << setw(11) << carsLocal.car.distanceTravelled << "|" << setw(8) << carsLocal.car.fuelConsumption << "|"<<setw(18)<<carsLocal.car.fuelCost <<"|"<< setw(7) << carsLocal.car.koefD << "|\n";
+			<< "|" << setw(11) << carsLocal.car.distanceTravelled << "|" << setw(8) << carsLocal.car.fuelConsumption << "|" << setw(18) << carsLocal.car.fuelCost << "|" << setw(7) << carsLocal.car.koefD << "|\n";
 
-		cout << "\t\t+" << setfill('-') << setw(3) << "+" << setw(17) << "+" << setw(15) << "+" << setw(16) << "+" << setw(12) << "+" << setw(9) << "+"<<setw(19)<<"+" << setw(9) << "+\n";
+		cout << "\t\t+" << setfill('-') << setw(3) << "+" << setw(17) << "+" << setw(15) << "+" << setw(16) << "+" << setw(12) << "+" << setw(9) << "+" << setw(19) << "+" << setw(9) << "+\n";
 	}
 
 	system("pause");
@@ -370,8 +372,8 @@ void DeleteCarByNumber(string file)
 	while (getline(search, line)) {
 		stringstream ss(line);
 
-		ss >> k >> localCar.car.numberOfCar >> localCar.car.brand >> localCar.car.horsePower >> localCar.car.distanceTravelled
-			>> localCar.car.fuelConsumption >>localCar.car.fuelCost>> localCar.car.koefD;
+		ss >> localCar.lineNumber >> localCar.car.numberOfCar >> localCar.car.brand >> localCar.car.horsePower >> localCar.car.distanceTravelled
+			>> localCar.car.fuelConsumption >> localCar.car.fuelCost >> localCar.car.koefD;
 
 		if (searchNumber != localCar.car.numberOfCar)
 		{
@@ -422,7 +424,7 @@ void DeleteCarByBrand(string file)
 		stringstream ss(line);
 
 		ss >> localCar.lineNumber >> localCar.car.numberOfCar >> localCar.car.brand >> localCar.car.horsePower >> localCar.car.distanceTravelled
-			>> localCar.car.fuelConsumption >>localCar.car.fuelCost>> localCar.car.koefD;
+			>> localCar.car.fuelConsumption >> localCar.car.fuelCost >> localCar.car.koefD;
 
 		if (searchBrand != localCar.car.brand)
 		{
@@ -521,7 +523,7 @@ void sortByNumberOfCar()
 		stringstream streamWord(stream);
 
 		streamWord >> localCar.lineNumber >> localCar.car.numberOfCar >> localCar.car.brand >> localCar.car.horsePower >> localCar.car.distanceTravelled
-			>> localCar.car.fuelConsumption >>localCar.car.fuelCost>> localCar.car.koefD;
+			>> localCar.car.fuelConsumption >> localCar.car.fuelCost >> localCar.car.koefD;
 
 		carsVector.push_back(localCar);
 	}
@@ -540,7 +542,7 @@ void sortByNumberOfCar()
 	{
 		std::sort(carsVector.begin(), carsVector.end(), [](const CarWithLineNumber& a, const CarWithLineNumber& b)
 			{
-				return a.car.numberOfCar< b.car.numberOfCar;
+				return a.car.numberOfCar < b.car.numberOfCar;
 			});
 	}
 
@@ -565,7 +567,7 @@ void sortByNumberOfCar()
 		// Запись объекта car в файл ofStream
 		ofStreamSort << car.lineNumber << "\t" << car.car.numberOfCar << "\t" << car.car.brand << "\t"
 			<< car.car.horsePower << "\t" << car.car.distanceTravelled << "\t"
-			<< car.car.fuelConsumption << "\t" << car.car.fuelCost <<"\t"<< car.car.koefD << "\n";
+			<< car.car.fuelConsumption << "\t" << car.car.fuelCost << "\t" << car.car.koefD << "\n";
 	}
 
 	ifStreamSort.close();
@@ -593,7 +595,7 @@ void SortByBrand()
 		stringstream streamWord(stream);
 
 		streamWord >> localCar.lineNumber >> localCar.car.numberOfCar >> localCar.car.brand >> localCar.car.horsePower >> localCar.car.distanceTravelled
-			>> localCar.car.fuelConsumption >>localCar.car.fuelCost>> localCar.car.koefD;
+			>> localCar.car.fuelConsumption >> localCar.car.fuelCost >> localCar.car.koefD;
 
 		carsVector.push_back(localCar);
 	}
@@ -636,7 +638,7 @@ void SortByBrand()
 		// Запись объекта car в файл ofStream
 		ofStreamSort << car.lineNumber << "\t" << car.car.numberOfCar << "\t" << car.car.brand << "\t"
 			<< car.car.horsePower << "\t" << car.car.distanceTravelled << "\t"
-			<< car.car.fuelConsumption << "\t" << car.car.fuelCost <<"\t"<<car.car.koefD << "\n";
+			<< car.car.fuelConsumption << "\t" << car.car.fuelCost << "\t" << car.car.koefD << "\n";
 	}
 
 	ifStreamSort.close();
@@ -664,7 +666,7 @@ void SortByHorsePower()
 		stringstream streamWord(stream);
 
 		streamWord >> localCar.lineNumber >> localCar.car.numberOfCar >> localCar.car.brand >> localCar.car.horsePower >> localCar.car.distanceTravelled
-			>> localCar.car.fuelConsumption >> localCar.car.fuelCost>>localCar.car.koefD;
+			>> localCar.car.fuelConsumption >> localCar.car.fuelCost >> localCar.car.koefD;
 
 		carsVector.push_back(localCar);
 	}
@@ -707,7 +709,7 @@ void SortByHorsePower()
 		// Запись объекта car в файл ofStream
 		ofStreamSort << car.lineNumber << "\t" << car.car.numberOfCar << "\t" << car.car.brand << "\t"
 			<< car.car.horsePower << "\t" << car.car.distanceTravelled << "\t"
-			<< car.car.fuelConsumption << "\t" <<car.car.fuelCost<<"\t"<< car.car.koefD << "\n";
+			<< car.car.fuelConsumption << "\t" << car.car.fuelCost << "\t" << car.car.koefD << "\n";
 	}
 
 	ifStreamSort.close();
@@ -735,7 +737,7 @@ void SortByDistanceTravelled()
 		stringstream streamWord(stream);
 
 		streamWord >> localCar.lineNumber >> localCar.car.numberOfCar >> localCar.car.brand >> localCar.car.horsePower >> localCar.car.distanceTravelled
-			>> localCar.car.fuelConsumption >>localCar.car.fuelCost>> localCar.car.koefD;
+			>> localCar.car.fuelConsumption >> localCar.car.fuelCost >> localCar.car.koefD;
 
 		carsVector.push_back(localCar);
 	}
@@ -779,7 +781,7 @@ void SortByDistanceTravelled()
 		// Запись объекта car в файл ofStream
 		ofStreamSort << car.lineNumber << "\t" << car.car.numberOfCar << "\t" << car.car.brand << "\t"
 			<< car.car.horsePower << "\t" << car.car.distanceTravelled << "\t"
-			<< car.car.fuelConsumption << "\t" <<car.car.fuelCost<<"\t"<< car.car.koefD << "\n";
+			<< car.car.fuelConsumption << "\t" << car.car.fuelCost << "\t" << car.car.koefD << "\n";
 	}
 
 	ifStreamSort.close();
@@ -787,4 +789,56 @@ void SortByDistanceTravelled()
 
 	system("cls");
 	Output(sortFile);
+}
+
+bool CheckIfLineNumberExists(string file, CarWithLineNumber carsLocal)
+{
+	ifstream fin(file);
+	if (!fin)
+	{
+		cout << "\nФайл не найден." << endl;
+		return false;
+	}
+
+	string line;
+	while (getline(fin, line))
+	{
+		stringstream stream(line);
+		int lineNumber;
+		stream >> lineNumber;
+		if (lineNumber == carsLocal.lineNumber)
+		{
+			fin.close();
+			return true;
+		}
+	}
+
+	fin.close();
+	return false;
+}
+
+bool CheckIfNumberOfCarExists(string file, CarWithLineNumber carsLocal)
+{
+	ifstream fin(file);
+	if (!fin)
+	{
+		cout << "\nФайл не найден." << endl;
+		return false;
+	}
+
+	string line;
+	while (getline(fin, line))
+	{
+		stringstream stream(line);
+		string numberOfCarSearch;
+		stream >> numberOfCarSearch >> numberOfCarSearch;
+		if (numberOfCarSearch == carsLocal.car.numberOfCar)
+		{
+			fin.close();
+			return true;
+		}
+	}
+
+	fin.close();
+	return false;
 }
