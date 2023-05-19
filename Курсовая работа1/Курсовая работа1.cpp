@@ -224,11 +224,18 @@ void FileAdd(string file)
 
 		ifstream fin;
 		fin.open(file, ios_base::in | ios_base::ate);
+
+		if (!fin) 
+		{
+			cout << "\n\t\tФайл # не найден." << endl;
+			return;
+		}
+
 		string lineForStream;
 		stringstream stream(lineForStream);
 
 		stream >> k;
-
+		fin.close();
 		fout << k << "\t";
 
 		cout << "Городской номер авто: ";
