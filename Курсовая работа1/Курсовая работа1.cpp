@@ -226,6 +226,7 @@ void FileAdd(string file)
 		fin.open(file, ios_base::in | ios_base::ate);
 		string lineForStream;
 		stringstream stream(lineForStream);
+
 		stream >> k;
 
 		fout << k << "\t";
@@ -250,6 +251,8 @@ void FileAdd(string file)
 		cout << "Затраты л/100км: ";
 		cin >> carsLocal[i].car.fuelConsumption;
 		fout << carsLocal[i].car.fuelConsumption << "\t";
+
+
 
 		cout << "Поправочный коэф. D: ";
 		cin >> carsLocal[i].car.koefD;
