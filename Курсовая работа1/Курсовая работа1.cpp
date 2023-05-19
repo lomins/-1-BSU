@@ -224,10 +224,18 @@ void FileAdd(string file)
 
 		ifstream fin;
 		fin.open(file, ios_base::in | ios_base::ate);
+
+		if (!fin) 
+		{
+			cout << "\n\t\tФайл # не найден." << endl;
+			return;
+		}
+
 		string lineForStream;
 		stringstream stream(lineForStream);
-		stream >> k;
 
+		stream >> k;
+		fin.close();
 		fout << k << "\t";
 
 		cout << "Городской номер авто: ";
@@ -250,6 +258,8 @@ void FileAdd(string file)
 		cout << "Затраты л/100км: ";
 		cin >> carsLocal[i].car.fuelConsumption;
 		fout << carsLocal[i].car.fuelConsumption << "\t";
+
+
 
 		cout << "Поправочный коэф. D: ";
 		cin >> carsLocal[i].car.koefD;
