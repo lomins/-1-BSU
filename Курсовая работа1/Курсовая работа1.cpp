@@ -168,40 +168,54 @@ void FileRewrite(string file)
 
 	countOfCars = 1;
 
-	Car* carsLocal = new Car[countCars];
+	CarWithLineNumber* carsLocal = new CarWithLineNumber[countCars];
 	for (int i = 0; i < countCars; i++) {
 		cout << "Введите данные об авто для заполнения: \n";
 
-		fout << countOfCars << "\t";
+		cout << "Код авто: ";
+		cin >> carsLocal[i].lineNumber;
+		// Проверка наличия кода авто в файле
+		if (CheckIfLineNumberExists(file, carsLocal[i]))
+		{
+			cout << "Код авто уже существует в базе данных. Пожалуйста, введите другой код." << endl;
+			i--; // Повторяем итерацию для ввода другого кода
+			continue;
+		}
 
 		cout << "Городской номер авто: ";
 		/*getline(cin, carsLocal[i].numberOfCar);*/
-		cin >> carsLocal[i].numberOfCar;
-		fout << carsLocal[i].numberOfCar << "\t";
+		cin >> carsLocal[i].car.numberOfCar;
+		if (CheckIfNumberOfCarExists(file, carsLocal[i]))
+		{
+			cout << "Городской номер существует в базе данных. Пожалуйста, введите другой код." << endl;
+			i--; // Повторяем итерацию для ввода другого кода
+			continue;
+		}
+		fout << carsLocal[i].car.numberOfCar << "\t";
 
 		cout << "Бренд авто: ";
-		cin >> carsLocal[i].brand;
-		fout << carsLocal[i].brand << "\t";
+		cin >> carsLocal[i].car.brand;
+		fout << carsLocal[i].car.brand << "\t";
 
 		cout << "Лошадиные силы авто: ";
-		cin >> carsLocal[i].horsePower;
-		fout << carsLocal[i].horsePower << "\t";
+		cin >> carsLocal[i].car.horsePower;
+		fout << carsLocal[i].car.horsePower << "\t";
 
 		cout << "Пробег авто: ";
-		cin >> carsLocal[i].distanceTravelled;
-		fout << carsLocal[i].distanceTravelled << "\t";
+		cin >> carsLocal[i].car.distanceTravelled;
+		fout << carsLocal[i].car.distanceTravelled << "\t";
 
 		cout << "Затраты л/100км: ";
-		cin >> carsLocal[i].fuelConsumption;
-		fout << carsLocal[i].fuelConsumption << "\t";
+		cin >> carsLocal[i].car.fuelConsumption;
+		fout << carsLocal[i].car.fuelConsumption << "\t";
 
 		cout << "Цена топлива, руб: ";
-		cin >> carsLocal[i].fuelCost;
-		fout << carsLocal[i].fuelCost << "\t";
+		cin >> carsLocal[i].car.fuelCost;
+		fout << carsLocal[i].car.fuelCost << "\t";
 
 		cout << "Поправочный коэф. D: ";
-		cin >> carsLocal[i].koefD;
-		fout << carsLocal[i].koefD << "\n";
+		cin >> carsLocal[i].car.koefD;
+		fout << carsLocal[i].car.koefD << "\n";
 
 		cin.ignore();
 
@@ -233,7 +247,6 @@ void FileAdd(string file)
 		cout << setw(56) << "Введите данные об авто для заполнения: \n";
 
 		cout << "Код авто: ";
-		/*getline(cin, carsLocal[i].numberOfCar);*/
 		cin >> carsLocal[i].lineNumber;
 		// Проверка наличия кода авто в файле
 		if (CheckIfLineNumberExists(file, carsLocal[i]))
