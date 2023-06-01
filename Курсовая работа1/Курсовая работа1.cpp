@@ -172,6 +172,7 @@ void FileRewrite(string file)
 	for (int i = 0; i < countCars; i++) {
 		cout << "Введите данные об авто для заполнения: \n";
 
+		cout << "Код авто: ";
 		cin >> carsLocal[i].lineNumber;
 		// Проверка наличия кода авто в файле
 		if (CheckIfLineNumberExists(file, carsLocal[i]))
@@ -180,6 +181,7 @@ void FileRewrite(string file)
 			i--; // Повторяем итерацию для ввода другого кода
 			continue;
 		}
+		fout << carsLocal[i].lineNumber << "\t";
 
 		cout << "Городской номер авто: ";
 		/*getline(cin, carsLocal[i].numberOfCar);*/
@@ -254,6 +256,7 @@ void FileAdd(string file)
 			i--; // Повторяем итерацию для ввода другого кода
 			continue;
 		}
+		fout << carsLocal[i].lineNumber << "\t";
 
 		cout << "Городской номер авто: ";
 		/*getline(cin, carsLocal[i].numberOfCar);*/
