@@ -309,11 +309,11 @@ void Output(string file)
 	ifstream read(file);
 	if (!read)
 		cout << "Файл не открыт." << endl;
-	cout << "\t\t+" << setfill('-') << setw(3) << "+" << setw(17) << "+" << setw(15) << "+" << setw(16) << "+" << setw(12) << "+" << setw(9) << "+" << setw(19) << "+" << setw(9) << "+\n";
+	cout << "\t\t+" << setfill('-') << setw(3) << "+" << setw(17) << "+" << setw(15) << "+" << setw(16) << "+" << setw(12) << "+" << setw(9) << "+" << setw(19) << "+" << setw(8)<<"+" << setw(19) << "+\n";
 
-	cout << "\t\t|" << setfill(' ') << setw(2) << "#" << "|" << setw(16) << "Городской номер" << "|" << setw(14) << "Бренд  " << "|" << setw(15) << "Лошадиные силы " << "|" << setw(7) << "Пробег, км " << "|" << setw(8) << "л/100км" << "|" << setw(18) << "Цена топлива, руб" << "|" << setw(6) << "Коэф. D" << "|\n";
+	cout << "\t\t|" << setfill(' ') << setw(2) << "#" << "|" << setw(16) << "Городской номер" << "|" << setw(14) << "Бренд  " << "|" << setw(15) << "Лошадиные силы " << "|" << setw(7) << "Пробег, км " << "|" << setw(8) << "л/100км" << "|" << setw(18) << "Цена топлива, руб" << "|" << setw(6) << "Коэф. D" <<"|" << setw(17) << "Затрачено, руб" << "| \n";
 
-	cout << "\t\t+" << setfill('-') << setw(3) << "+" << setw(17) << "+" << setw(15) << "+" << setw(16) << "+" << setw(12) << "+" << setw(9) << "+" << setw(19) << "+" << setw(9) << "+\n";
+	cout << "\t\t+" << setfill('-') << setw(3) << "+" << setw(17) << "+" << setw(15) << "+" << setw(16) << "+" << setw(12) << "+" << setw(9) << "+" << setw(19) << "+" << setw(8) << "+" << setw(19)<<"+\n";
 
 	CarWithLineNumber carsLocal;
 	int n = 0;
@@ -326,9 +326,10 @@ void Output(string file)
 		carRead >> carsLocal.lineNumber >> carsLocal.car.numberOfCar >> carsLocal.car.brand >> carsLocal.car.horsePower >> carsLocal.car.distanceTravelled >> carsLocal.car.fuelConsumption >> carsLocal.car.fuelCost >> carsLocal.car.koefD;
 
 		cout << "\t\t|" << setfill(' ') << setw(2) << carsLocal.lineNumber << "|" << setw(16) << carsLocal.car.numberOfCar << "|" << setw(14) << carsLocal.car.brand << "|" << setw(15) << carsLocal.car.horsePower
-			<< "|" << setw(11) << carsLocal.car.distanceTravelled << "|" << setw(8) << carsLocal.car.fuelConsumption << "|" << setw(18) << carsLocal.car.fuelCost << "|" << setw(7) << carsLocal.car.koefD << "|\n";
+			<< "|" << setw(11) << carsLocal.car.distanceTravelled << "|" << setw(8) << carsLocal.car.fuelConsumption << "|" << setw(18) << carsLocal.car.fuelCost << "|" << setw(7) << carsLocal.car.koefD << "|" << setw(17)
+			<< (carsLocal.car.distanceTravelled/100 * carsLocal.car.fuelConsumption * carsLocal.car.fuelCost) <<"|\n";
 
-		cout << "\t\t+" << setfill('-') << setw(3) << "+" << setw(17) << "+" << setw(15) << "+" << setw(16) << "+" << setw(12) << "+" << setw(9) << "+" << setw(19) << "+" << setw(9) << "+\n";
+		cout << "\t\t+" << setfill('-') << setw(3) << "+" << setw(17) << "+" << setw(15) << "+" << setw(16) << "+" << setw(12) << "+" << setw(9) << "+" << setw(19) << "+" << setw(8) << "+" << setw(19) << "+\n";
 	}
 
 	system("pause");
